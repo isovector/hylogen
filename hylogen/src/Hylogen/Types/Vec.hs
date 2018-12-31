@@ -58,7 +58,7 @@ instance Veccable 1 where
   copy = id
   toList v = [v]
 instance Veccable 2 where
-  copy v = op2pre' "vec2" v v 
+  copy v = op2pre' "vec2" v v
   toList v = [x_ v, y_ v]
 instance Veccable 3 where
   copy v = op3pre' "vec3" v v v
@@ -118,7 +118,7 @@ instance Veccable n => InnerSpace (Vec n) where
     where fv = FloatVec :: FloatVec 1
 
 
-  
+
 
 
 -- | Exposed constructor for making vec2's
@@ -166,6 +166,11 @@ instance (a ~ Vec1, b ~ Vec1, c ~ Vec1, d ~ Vec1) => ToVec4 (a, b, c, d) where
 
 
 type (>=) x y = (x + 1 <=? y) ~ 'False
+
+mkAssign :: forall n m. (Veccable n, Veccable m) => String -> Vec n -> Vec 1 -> Vec m
+mkAssign str v val = Expr fv (Tree (Assign, toGLSLType fv, str) [toMono v, toMono val])
+  where
+    fv = FloatVec :: FloatVec m
 
 -- | Makes swizzle functions. Uses GenSwizz.hs to generate the following 340 swizzle expressions.
 mkSwizz :: forall n m. (Veccable n, Veccable m) => String -> Vec n -> Vec m

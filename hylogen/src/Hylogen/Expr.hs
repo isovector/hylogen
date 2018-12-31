@@ -51,6 +51,7 @@ data ExprForm = Uniform
               | Op4Pre
               | Select
               | Access
+              | Assign
                 deriving (Show)
 
 -- | Rose tree. Internal AST data structure
@@ -75,6 +76,7 @@ instance Show ExprMono where
     Op4Pre   -> mconcat [str, "(", show (xs!!0), ", ", show (xs!!1), ", ", show (xs!!2), ", ", show (xs!!3), ")"]
     Select   -> mconcat ["( ", show (xs!!0), " ? ", show (xs!!1), " : ", show (xs!!2), ")"]
     Access   -> mconcat [show (xs!!0), ".", str]
+    Assign   -> mconcat ["( ", show (xs!!0), ".", str, "=", show (xs!!1), " )"]
 
 -- | Light type wrapper
 --
@@ -279,6 +281,7 @@ instance (Show a) => Show (ExprMonoF a) where
     Op4Pre   -> mconcat [str, "(", strAt 0, ", ", strAt 1, ", ", strAt 2, ", ", strAt 3, ")"]
     Select   -> mconcat ["( ", strAt 0, " ? ", strAt 1, " : ", strAt 2, ")"]
     Access   -> mconcat [strAt 0, ".", str]
+    Assign   -> mconcat ["( ", strAt 0, ".", str, "=", strAt 1, " )"]
     where
       strAt = emfStringAt expr
 
