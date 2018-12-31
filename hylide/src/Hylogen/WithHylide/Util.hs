@@ -34,5 +34,8 @@ linlin (a, b, c, d) x = c + (d - c) * ((x - a) / (b - a))
 hsv2rgb :: Vec4 -> Vec4
 hsv2rgb v = vec4(op1pre "hsv2rgb" (xyz_ v) :: Vec3, w_ v :: Vec1)
 
+voronoi :: Vec3 -> Vec3
+voronoi v = op1pre "voronoi" v
+
 rgb2hsv :: Vec4 -> Vec4
 rgb2hsv v = vec4 (op1pre "rgb2hsv" (xyz_ v) :: Vec3, w_ v :: Vec1)

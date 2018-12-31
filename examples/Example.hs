@@ -4,11 +4,12 @@ import Hylogen.WithHylide
 output :: Program
 output = toProgram color
 
+
+
 color :: Vec4
-color = vec4 (a, a, a, 1)
+color = vec4 (mix 0.99 c1 bb, 1)
   where
-    k = 20
-    f = (*k) . sin . (/k)
-    a = sum [ cos (x_ uvN * f time + x_ mouse )
-            , sin (y_ uvN * f time + y_ mouse )
-            ]
+    uv' = uv + vec2(sin(y_ uv * 10 + time), 0)
+    c1 = voronoi $ vec3 (uv' * vec2(4, 4) + vec2(time, time), 1)
+    bb = xyz_ $ texture2D backBuffer uv
+
